@@ -3,11 +3,14 @@
 # Overview
 Converts audio files to text then translates.
 
-This program is meant to be a useful tool for helping people understand eachother and create better conversations.
+This program is meant to be a useful tool for helping people understand eachother and communicate better.
 
-Transcribes audio file from the audio folder and then creates a trancribed .txt file with the same name as the audio file.
-The transcribed text file is then translated to whatever language the user selected and is outputted in another .txt file.
+Transcribes audio files then translates them to a language the user selects.
 
 # Features
+Transcribe a sound file and put it into a text file.
+Translate the transcribed text to another language and save it to another text file.
+
 
 # Technologies
+Python
