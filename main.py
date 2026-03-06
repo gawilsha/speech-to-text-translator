@@ -2,6 +2,8 @@ import os
 import sys
 
 import assemblyai as aai
+import asyncio
+import translate
 
 
 def get_api_key() -> str:
@@ -53,11 +55,16 @@ def main(argv: list[str]) -> None:
         print(text)
 
         # Save transcript to a .txt file next to the audio file
-        base, _ = os.path.splitext(audio_path)
-        out_path = base + ".txt"
+        out_path = "transcribed.txt"
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(text)
         print(f"\nSaved to: {out_path}")
+        # Run the async translate_text coroutine to create translated.txt
+        asyncio.run(translate.translate_text())
+        print("\n--- Translated Text ---\n")
+        with open("translated.txt", "r") as f:
+            translated_text = f.read()
+        print(translated_text)
     except Exception as exc:
         print(f"Error: {exc}", file=sys.stderr)
         sys.exit(1)
