@@ -1,18 +1,17 @@
 from googletrans import Translator
 import asyncio
 
-async def translate_text():
+
+async def translate_text(text: str, dest: str = "fr", src: str = "auto") -> str:
     translator = Translator()
+    translated = await translator.translate(text, src=src, dest=dest)
+    return translated.text
 
-    f = open("transcribed.txt", "r", encoding="utf-8")
-    text = f.read()
-
-    # translate the text to new language
-    translated = await translator.translate(text, src="en", dest="fr")
-
-    # save the translated text to a new file
-    with open("translated.txt", "w", encoding="utf-8") as f:
-        f.write(translated.text)
 
 if __name__ == "__main__":
-    asyncio.run(translate_text())
+    with open("transcribed.txt", "r", encoding="utf-8") as f:
+        transcript_text = f.read()
+
+    translated_text = asyncio.run(translate_text(transcript_text))
+    with open("translated.txt", "w", encoding="utf-8") as f:
+        f.write(translated_text)

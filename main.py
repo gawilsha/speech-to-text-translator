@@ -41,30 +41,37 @@ def transcribe_file(audio_path: str) -> str:
     return transcript.text or ""
 
 
+def process_audio(audio_path: str, target_language: str = "fr") -> tuple[str, str]:
+    text = transcribe_file(audio_path)
+    translated_text = asyncio.run(translate.translate_text(text, dest=target_language))
+
+    with open("transcribed.txt", "w", encoding="utf-8") as f:
+        f.write(text)
+    with open("translated.txt", "w", encoding="utf-8") as f:
+        f.write(translated_text)
+
+    return text, translated_text
+
+
 def main(argv: list[str]) -> None:
     if len(argv) < 2:
-        print("Usage: python main.py <path_to_audio_file>", file=sys.stderr)
+        print(
+            "Usage: python main.py <path_to_audio_file> [target_language_code]",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     audio_path = argv[1]
+    target_language = argv[2] if len(argv) > 2 else "fr"
 
     try:
         print(f"Transcribing: {audio_path} ...")
-        text = transcribe_file(audio_path)
+        text, translated_text = process_audio(audio_path, target_language)
         print("\n--- Transcript ---\n")
         print(text)
-
-        # Save transcript to a .txt file next to the audio file
-        out_path = "transcribed.txt"
-        with open(out_path, "w", encoding="utf-8") as f:
-            f.write(text)
-        print(f"\nSaved to: {out_path}")
-        # Run the async translate_text coroutine to create translated.txt
-        asyncio.run(translate.translate_text())
         print("\n--- Translated Text ---\n")
-        with open("translated.txt", "r", encoding="utf-8") as f:
-            translated_text = f.read()
         print(translated_text)
+        print("\nSaved to: transcribed.txt and translated.txt")
     except Exception as exc:
         print(f"Error: {exc}", file=sys.stderr)
         sys.exit(1)
