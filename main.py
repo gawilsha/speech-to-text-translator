@@ -62,7 +62,7 @@ def main(argv: list[str]) -> None:
         # Run the async translate_text coroutine to create translated.txt
         asyncio.run(translate.translate_text())
         print("\n--- Translated Text ---\n")
-        with open("translated.txt", "r") as f:
+        with open("translated.txt", "r", encoding="utf-8") as f:
             translated_text = f.read()
         print(translated_text)
     except Exception as exc:
