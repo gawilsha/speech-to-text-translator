@@ -8,9 +8,11 @@ This program is meant to be a useful tool for helping people understand eachothe
 Transcribes audio files then translates them to a language the user selects.
 
 # Features
-Transcribe a sound file and put it into a text file.
-Translate the transcribed text to another language and save it to another text file.
+Transcribe a sound file and display it.
+Translate the transcribed text to another language and display it as well.
+Simple drag and drop program.
 
 
 # Technologies
 Python
+Streamlit
